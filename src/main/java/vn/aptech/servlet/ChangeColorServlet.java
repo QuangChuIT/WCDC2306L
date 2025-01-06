@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "ChangeColorServlet", urlPatterns = {"/change-color-servlet"})
+@WebServlet(name = "ChangeColorServlet", urlPatterns = {"/change-color-servlet"}, loadOnStartup = 1)
 public class ChangeColorServlet extends HttpServlet {
     private static final String COOKIE_NAME = "color";
 
