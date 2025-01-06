@@ -30,7 +30,7 @@
         </tr>
     <%}%>
 </table>
-<form action="/account" method="post">
+<form action="students.jsp" method="post">
     <table>
         <tr>
             <td>Name: </td>
