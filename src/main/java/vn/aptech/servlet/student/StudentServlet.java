@@ -1,18 +1,30 @@
 package vn.aptech.servlet.student;
 
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "StudentServlet", urlPatterns = {"/students"})
 public class StudentServlet extends HttpServlet {
 
-    private final StudentService studentService = new StudentService();
+    private StudentService studentService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        if (emf == null) {
+            throw new ServletException("EntityManagerFactory not initialized.");
+        }
+        this.studentService = new StudentService(emf);
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");

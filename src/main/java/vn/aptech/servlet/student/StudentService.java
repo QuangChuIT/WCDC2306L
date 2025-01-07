@@ -1,17 +1,22 @@
 package vn.aptech.servlet.student;
 
-import vn.aptech.servlet.util.JPAUtil;
-
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentService {
 
+    private final EntityManagerFactory emf;
+
+    public StudentService(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+
     public List<Student> getAllStudents() {
 
-        EntityManager em = JPAUtil.getInstance().getEntityManager();
+        EntityManager em = emf.createEntityManager();
         try {
             Query query = em.createQuery("select s from STUDENTS s", Student.class);
             return query.getResultList();
@@ -25,7 +30,7 @@ public class StudentService {
     }
 
     public boolean existByEmail(String email) {
-        EntityManager em = JPAUtil.getInstance().getEntityManager();
+        EntityManager em = this.emf.createEntityManager();
         try {
             Query query = em.createQuery("select s from STUDENTS s where s.email = :email", Student.class);
             query.setParameter("email", email);
@@ -38,7 +43,7 @@ public class StudentService {
     }
 
     public void addStudent(Student student) {
-        EntityManager em = JPAUtil.getInstance().getEntityManager();
+        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(student);
@@ -52,7 +57,7 @@ public class StudentService {
     }
 
     public void updateStudent(Student student) {
-        EntityManager em = JPAUtil.getInstance().getEntityManager();
+        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(student);
@@ -66,7 +71,7 @@ public class StudentService {
     }
 
     public void deleteStudent(Long id) {
-        EntityManager em = JPAUtil.getInstance().getEntityManager();
+        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             Student student = em.find(Student.class, id);
