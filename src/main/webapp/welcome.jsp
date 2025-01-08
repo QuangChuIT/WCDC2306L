@@ -13,7 +13,12 @@
     int b = 10;
     int c = a + b;
 
+    response.sendRedirect("/students");
+
 %>
+<%--<jsp:forward page="/students">
+    <jsp:param name="name" value="aaaa"/>
+</jsp:forward>--%>
 <%-- Display message and result of a + b --%>
 <h1><%= msg %><%=a + b%></h1>
 <%@ include file="index.jsp"%>

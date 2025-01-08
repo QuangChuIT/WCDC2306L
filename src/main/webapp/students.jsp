@@ -31,41 +31,38 @@
                         <td>
                             <a href="<c:url value="/students?action=delete&id=${student.getId()}"/>"
                                class="btn btn-danger">Delete</a>
+                            <a class="btn btn-info" href="<c:url value="/students?action=showFrmU&id=${student.id}"/>">Edit</a>
                         </td>
                     </tr>
                 </c:forEach>
             </table>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <c:if test="${currentPage > 1}">
+                        <li class="page-item"><a class="page-link" href="<c:url value="/students?page=${currentPage-1}"/>">Previous</a></li>
+                    </c:if>
+                    <c:forEach var="page" begin="1" end="${totalPages}">
+                        <c:choose>
+                            <c:when test="${currentPage == page}">
+                                <li class="page-item active"><a class="page-link" href="<c:url value="/students?page=${page}"/>">${page}</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item"><a class="page-link" href="<c:url value="/students?page=${page}"/>">${page}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
+                    <c:if test="${currentPage < totalPages}">
+                        <li class="page-item"><a class="page-link" href="<c:url value="/students?page=${currentPage+1}"/>">Next</a></li>
+                    </c:if>
+                </ul>
+            </nav>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 col-xs-12 col-sm-12">
-            <div class="d-flex justify-content-center">
-                <div class="text-danger">
-                    <c:if test="${error != null}">
-                        ${error}
-                    </c:if>
-                </div>
-            </div>
-            <div class="d-flex justify-content-center">
-                <form action="<c:url value="/students?action=create"/>" method="post" class="student-form">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
-                               value="${name}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"
-                               value="${email}" } required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="bornYear" class="form-label">Born Year</label>
-                        <input type="number" class="form-control" id="bornYear" name="bornYear"
-                               placeholder="Enter born year" value="${bornYear}" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
+           <a href="<c:url value="/students?action=showFrmC"/>">Add new Student</a>
         </div>
     </div>
 </div>

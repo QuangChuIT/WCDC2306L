@@ -14,11 +14,25 @@ public class StudentService {
         this.emf = emf;
     }
 
-    public List<Student> getAllStudents() {
+    public long getTotalStudents() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Query query = em.createQuery("SELECT COUNT(s) FROM STUDENTS s");
+            return ((Long) query.getSingleResult());
+        } catch (Exception e) {
+            return 0L;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Student> getAllStudents(int page, int size) {
 
         EntityManager em = emf.createEntityManager();
         try {
             Query query = em.createQuery("select s from STUDENTS s", Student.class);
+            query.setFirstResult((page - 1) * size);
+            query.setMaxResults(size);
             return query.getResultList();
         } catch (Exception e) {
             System.err.println("Error get all students: " + e.getMessage());
@@ -80,6 +94,17 @@ public class StudentService {
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.err.println("Error delete student: " + e.getMessage());
+        }
+    }
+
+    public Student getStudent(Long id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.find(Student.class, id);
+        } catch (Exception e) {
+            return null;
+        } finally {
+            em.close();
         }
     }
 }

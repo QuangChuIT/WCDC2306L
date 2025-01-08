@@ -20,7 +20,7 @@ public class Student implements Serializable {
     private String email;
 
     @Column(name = "born_year", nullable = false)
-    private Integer bornYear;
+    private Integer bornYear = 0;
 
     public Student() {
     }
@@ -58,6 +58,9 @@ public class Student implements Serializable {
     }
 
     public int getAge() {
+        if (bornYear == null) {
+            return 0;
+        }
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         return cal.get(Calendar.YEAR) - bornYear;
