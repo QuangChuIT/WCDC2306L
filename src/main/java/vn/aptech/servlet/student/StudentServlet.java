@@ -3,13 +3,17 @@ package vn.aptech.servlet.student;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 
 import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @WebServlet(name = "StudentServlet", urlPatterns = {"/students"})
 public class StudentServlet extends HttpServlet {
@@ -42,6 +46,39 @@ public class StudentServlet extends HttpServlet {
             request.setAttribute("currentPage", page);
             request.setAttribute("totalPages", totalPage);
             request.setAttribute("students", students);
+            Cookie cookie = new Cookie("username", "administrator");
+            cookie.setPath("/");
+            cookie.setMaxAge(3600);
+            response.addCookie(cookie);
+            request.setAttribute("now", new Date());
+            String language = request.getParameter("lang");
+            String countryCode = "VI";
+            if (language == null) {
+                language = "vi";
+                countryCode = "VN";
+            } else if (language.equals("vi")) {
+                language = "vi";
+                countryCode = "VN";
+            } else if (language.equals("en")) {
+                language = "en";
+                countryCode = "US";
+            } else if (language.equals("fr")) {
+                language = "fr";
+                countryCode = "FR";
+            }
+            String lo = language + "_" + countryCode;
+            request.setAttribute("locale", lo);
+            Locale locale = new Locale(language, countryCode);
+            ResourceBundle resourceBundle = ResourceBundle.getBundle("messages", locale);
+            String welcome = resourceBundle.getString("welcome");
+            request.setAttribute("welcome", welcome);
+
+            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, locale);
+            request.setAttribute("currentDate", dateFormat.format(new Date()));
+
+            NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
+            request.setAttribute("price", numberFormat.format(new BigDecimal("1000000")));
+
             request.getRequestDispatcher("/students.jsp").forward(request, response);
         } else if (action.equals("showFrmC")) {
             Student student = new Student();

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" version="2.0">
+    <tlib-version>2.0</tlib-version>
+    <short-name>dateFormat</short-name>
+    <uri>http://vn.aptech/tags/dateformat</uri>
+
+    <tag>
+        <name>dateFormat</name>
+        <tag-class>vn.aptech.servlet.tags.FormatDateTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>dateValue</name>
+            <required>true</required>
+            <type>java.util.Date</type>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+        <attribute>
+            <name>pattern</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+</taglib>

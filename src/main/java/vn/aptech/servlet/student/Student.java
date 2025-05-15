@@ -2,6 +2,7 @@ package vn.aptech.servlet.student;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,6 +22,13 @@ public class Student implements Serializable {
 
     @Column(name = "born_year", nullable = false)
     private Integer bornYear = 0;
+
+    @Column(name = "registration_date")
+    @Temporal(TemporalType.DATE)
+    private Date registrationDate;
+
+    @Column(name = "price")
+    private BigDecimal price;
 
     public Student() {
     }
@@ -57,6 +65,18 @@ public class Student implements Serializable {
         this.bornYear = bornYear;
     }
 
+    public void setBornYear(Integer bornYear) {
+        this.bornYear = bornYear;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
     public int getAge() {
         if (bornYear == null) {
             return 0;
@@ -64,5 +84,13 @@ public class Student implements Serializable {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         return cal.get(Calendar.YEAR) - bornYear;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

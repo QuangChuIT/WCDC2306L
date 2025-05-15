@@ -46,6 +46,14 @@
       <artifactId>glassfish-jstl</artifactId>
       <version>11.0.12</version>
     </dependency>
+
+    <dependency>
+      <groupId>jakarta.servlet.jsp</groupId>
+      <artifactId>jakarta.servlet.jsp-api</artifactId>
+      <version>3.1.1</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>wcd</finalName>
